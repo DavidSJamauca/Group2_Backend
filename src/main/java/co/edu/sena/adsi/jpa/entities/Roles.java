@@ -8,15 +8,14 @@ package co.edu.sena.adsi.jpa.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,45 +25,39 @@ import javax.validation.constraints.Size;
  * @author David Jamauca
  */
 @Entity
-@Table(name = "tipo_documento")
+@Table(name = "roles")
 @NamedQueries({
-    @NamedQuery(name = "TipoDocumento.findAll", query = "SELECT t FROM TipoDocumento t")})
-public class TipoDocumento implements Serializable {
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoDocumentoId")
-    private List<Usuarios> usuariosList;
-
-
+    @NamedQuery(name = "Roles.findAll", query = "SELECT r FROM Roles r")})
+public class Roles implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+    @Size(min = 1, max = 10)
+    @Column(name = "id")
+    private String id;
+    @Size(max = 45)
     @Column(name = "descripcion")
     private String descripcion;
+    @JoinTable(name = "usuarios_has_roles", joinColumns = {
+        @JoinColumn(name = "roles_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "usuarios_id", referencedColumnName = "id")})
+    @ManyToMany
+    private List<Usuarios> usuariosList;
 
-    public TipoDocumento() {
+    public Roles() {
     }
 
-    public TipoDocumento(Integer id) {
+    public Roles(String id) {
         this.id = id;
     }
 
-    public TipoDocumento(Integer id, String descripcion) {
-        this.id = id;
-        this.descripcion = descripcion;
-    }
-
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -74,6 +67,14 @@ public class TipoDocumento implements Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public List<Usuarios> getUsuariosList() {
+        return usuariosList;
+    }
+
+    public void setUsuariosList(List<Usuarios> usuariosList) {
+        this.usuariosList = usuariosList;
     }
 
     @Override
@@ -86,10 +87,10 @@ public class TipoDocumento implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TipoDocumento)) {
+        if (!(object instanceof Roles)) {
             return false;
         }
-        TipoDocumento other = (TipoDocumento) object;
+        Roles other = (Roles) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -98,14 +99,7 @@ public class TipoDocumento implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.sena.adsi.jpa.entities.TipoDocumento[ id=" + id + " ]";
-    }
-    public List<Usuarios> getUsuariosList() {
-        return usuariosList;
-    }
-
-    public void setUsuariosList(List<Usuarios> usuariosList) {
-        this.usuariosList = usuariosList;
+        return "co.edu.sena.adsi.jpa.entities.Roles[ id=" + id + " ]";
     }
     
 }
