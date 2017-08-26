@@ -1,5 +1,5 @@
+co\edu\sena\adsi\jpa\sessions\TipoDocumentoFacade.class
+co\edu\sena\adsi\jpa\entities\TipoDocumento_.class
 co\edu\sena\adsi\jpa\sessions\AbstractFacade.class
 co\edu\sena\adsi\jpa\entities\TipoDocumento.class
-co\edu\sena\adsi\jpa\entities\TipoDocumento_.class
-co\edu\sena\adsi\jpa\sessions\TipoDocumentoFacade.class
 co\edu\sena\adsi\rest\services\ApplicationConfig.class
